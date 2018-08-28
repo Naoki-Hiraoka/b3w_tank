@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="tf2_ros" type="buffer_server" name="buffer_server"/>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find b3w_tank)/data/rviz.rviz"/>
+</launch>

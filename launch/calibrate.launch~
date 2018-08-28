@@ -1,0 +1,10 @@
+<launch>
+  <group ns="uvc_stereo_camera">
+    <node pkg="camera_calibration" type="cameracalibrator.py" name="cameracalibrator" args="--size 8x6 --square 0.025">
+      <remap from="right" to="right/image_raw"/>
+      <remap from="left" to="left/image_raw"/>
+      <remap from="right_camera" to="right"/>
+      <remap from="left_camera" to="left"/>
+    </node>
+  </group>
+</launch>

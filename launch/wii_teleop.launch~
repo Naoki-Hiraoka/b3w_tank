@@ -1,0 +1,13 @@
+<launch>
+  <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick">
+    <remap from="joy" to="wiimote/classic"/>
+    <param name="scale_angular" value="0.25"/>
+    <param name="scale_linear" value="0.025"/>
+    <param name="axis_deadman" value="11"/>
+    <param name="axis_linear" value="1"/>
+    <param name="axis_angular" value="2"/>
+    <remap from="turtlebot_teleop_joystick/cmd_vel" to="cmd_vel"/>
+  </node>
+  <node pkg="wiimote" type="wiimote_node.py" name="wiimote_node" output="screen"/>
+
+</launch>

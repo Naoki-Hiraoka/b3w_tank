@@ -1,0 +1,21 @@
+<launch>
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
+    <remap from="scan" to="uvc_stereo_camera/scan"/>
+    <rosparam>
+      maxUrange: 1.5
+      srr: 0.1
+      srt: 0.2
+      str: 0.1
+      stt: 0.2
+      linearUpdate: 0.1
+      angularUpdate: 0.5
+      temporalUpdate: -1.0
+      xmin: -8.0
+      ymin: -8.0
+      xmax: 8.0
+      ymax: 8.0
+      delta: 0.05
+      maxRange: 2.0
+    </rosparam>
+  </node>
+</launch>

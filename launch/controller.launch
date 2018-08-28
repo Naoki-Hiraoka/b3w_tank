@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="b3w_tank" type="controller.py" name="controller" output="screen"/>
+</launch>

@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="tf2_ros" type="buffer_server" name="buffer_server"/>
+  <group ns="uvc_stereo_camera">
+    <node pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_transform_publisher" args="0 0 0 0 0 0 map camera"/>
+  </group>
+</launch>

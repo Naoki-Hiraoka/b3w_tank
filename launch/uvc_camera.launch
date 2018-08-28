@@ -1,0 +1,38 @@
+<launch>
+  <group ns="uvc_stereo_camera">
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_transform_publisher_camera_rgb_frame" args="0 0 0 -1.57 0 -1.57 camera_depth_frame camera_rgb_frame"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_transform_publisher_camera_depth_frame" args="0 0.02 0.25 0 0 0 base_link camera_depth_frame"/>
+
+    <node pkg="uvc_camera" type="uvc_stereo_node" name="uvc_stereo_node" respawn="true" output="screen">
+      <rosparam subst_value="True">
+        left/camera_info_url: file://$(find b3w_tank)/data/left_camera.yaml
+        right/camera_info_url: file://$(find b3w_tank)/data/right_camera.yaml
+        skip_frames: 5
+        right/rotate: true
+        frame_id: camera_rgb_frame
+      </rosparam>
+    </node>
+      
+    <node pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc">
+      <rosparam>
+        image_tramsport: compressed
+      </rosparam>
+    </node>
+
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan" >
+      <remap from="cloud_in" to="points2"/>
+      <rosparam>
+        min_height: -0.1
+        max_height: 0.1
+        angle_min: -0.5
+        angle_max: 0.5
+        scan_time: 0.5
+        range_min: 0.6
+        range_max: 2.0
+        concurrency_level: 0
+        target_frame: camera_depth_frame
+      </rosparam>
+    </node>
+  </group>
+    
+</launch>

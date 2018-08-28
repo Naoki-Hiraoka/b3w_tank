@@ -1,0 +1,58 @@
+<launch>
+  <node pkg="tf2_ros" type="buffer_server" name="buffer_server"/>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="static_transform_publisher_camera_rgb_frame" args="0 0 0 -1.57 0 -1.57 map camera_rgb_frame"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="static_transform_publisher_camera_depth_frame" args="0 0 0 0 0 0 map camera_depth_frame"/>
+
+  <group ns="uvc_stereo_camera">
+    <node pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc">
+      <rosparam>
+        image_tramsport: compressed
+      </rosparam>
+    </node>
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan" >
+      <remap from="cloud_in" to="points2"/>
+      <rosparam>
+        min_height: -0.1
+        max_height: 0.1
+        scan_time: 0.5
+        concurrency_level: 0
+        target_frame: camera_depth_frame
+      </rosparam>
+    </node>
+  </group>
+  
+  <!-- <group ns="uvc_stereo_camera"> -->
+  <!--   <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" output="screen" /> -->
+
+  <!--   <node pkg="nodelet" type="nodelet" name="right_debayer" args="load image_proc/debayer nodelet_manager"> -->
+  <!--     <remap from="image_raw" to="right/image_raw"/> -->
+  <!--     <remap from="image_mono" to="right/image_mono"/> -->
+  <!--     <remap from="image_color" to="right/image_color"/> -->
+  <!--   </node> -->
+  <!--   <node pkg="nodelet" type="nodelet" name="right_rectify" args="load image_proc/rectify nodelet_manager"> -->
+  <!--     <remap from="image_mono" to="right/image_mono"/> -->
+  <!--     <remap from="camera_info" to="right/camera_info"/> -->
+  <!--     <remap from="image_rect" to="right/image_rect"/> -->
+  <!--   </node> -->
+  <!--   <node pkg="nodelet" type="nodelet" name="left_debayer" args="load image_proc/debayer nodelet_manager"> -->
+  <!--       <remap from="image_raw" to="left/image_raw"/> -->
+  <!--     <remap from="image_mono" to="left/image_mono"/> -->
+  <!--     <remap from="image_color" to="left/image_color"/> -->
+  <!--   </node> -->
+  <!--   <node pkg="nodelet" type="nodelet" name="left_rectify" args="load image_proc/rectify nodelet_manager"> -->
+  <!--     <remap from="image_mono" to="left/image_mono"/> -->
+  <!--     <remap from="camera_info" to="left/camera_info"/> -->
+  <!--     <remap from="image_rect" to="left/image_rect"/> -->
+  <!--   </node> -->
+
+  <!--   <node pkg="nodelet" type="nodelet" name="disparity" args="load stereo_image_proc/disparity nodelet_manager"/> -->
+  <!--   <node pkg="nodelet" type="nodelet" name="depthimage_to_laserscan" args="load depthimage_to_laserscan/DepthImageToLaserScanNodelet nodelet_manager"> -->
+  <!--     <remap from="image" to="disparity/image"/> -->
+  <!--     <rosparam> -->
+  <!--       scan_time: 0.1 -->
+  <!--     </rosparam> -->
+  <!--   </node> -->
+  <!-- </group> -->
+  
+</launch>
